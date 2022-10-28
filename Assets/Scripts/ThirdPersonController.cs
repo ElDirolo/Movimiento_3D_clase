@@ -85,6 +85,8 @@ public class ThirdPersonController : MonoBehaviour
     {
         float z = Input.GetAxisRaw("Vertical");
         anim.SetFloat("VelZ", z);
+        float x = Input.GetAxisRaw("Horizontal");
+        anim.SetFloat("VelX", x);
         //Creamos un Vector3 y en los ejes X y Z le asignamos los inputs de movimiento
         Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
