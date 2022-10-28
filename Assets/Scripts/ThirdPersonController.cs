@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThirdPersonController : MonoBehaviour
 {
     private CharacterController controller;
+    private Animator anim;
     public Transform cam;
     public Transform LookAtTransform;
 
@@ -35,6 +36,8 @@ public class ThirdPersonController : MonoBehaviour
     {
         //Asignamos el character controller a su variable
         controller = GetComponent<CharacterController>();
+
+        anim = GetComponentInChildren<Animator>();
 
         //Con esto podemos esconder el icono del raton para que no moleste
         Cursor.lockState = CursorLockMode.Locked;
@@ -80,6 +83,8 @@ public class ThirdPersonController : MonoBehaviour
     //Movimiento TPS con Freelook camera
     void MovementTPS()
     {
+        float z = Input.GetAxisRaw("Vertical");
+        anim.SetFloat("VelZ", z);
         //Creamos un Vector3 y en los ejes X y Z le asignamos los inputs de movimiento
         Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
