@@ -165,6 +165,8 @@ public class ThirdPersonController : MonoBehaviour
         //si la esfera entra en contacto con la capa que le digamos convertira nuestra boleana en true y si no entra en contacto en false
         isGrounded = Physics.CheckSphere(groundSensor.position, sensorRadius, ground);
 
+        anim.SetBool("Jump", !isGrounded);
+
         //Si estamos en el suelo y playervelocity es menor que 0 hacemos que le vuelva a poner el valor a 0
         //esto es para evitar que siga aplicando fuerza de gravedad cuando estemos en el suelo y evitar comportamientos extraños
         if(isGrounded && playerVelocity.y < 0)
