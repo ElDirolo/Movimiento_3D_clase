@@ -55,13 +55,15 @@ public class ThirdPersonController : MonoBehaviour
         anim.SetFloat("VelZ", z);
         float x = Input.GetAxisRaw("Horizontal");
         anim.SetFloat("VelX", x);
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        
         xAxis.Update(Time.deltaTime);
         yAxis.Update(Time.deltaTime);
 
         transform.rotation = Quaternion.Euler(0, xAxis.Value, 0);
         LookAtTransform.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, LookAtTransform.eulerAngles.z);
-
+        
+        
+        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if(Input.GetButton("Fire2"))
         {
             cameras[0].SetActive(false);
