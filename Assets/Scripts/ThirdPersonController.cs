@@ -45,14 +45,10 @@ public class ThirdPersonController : MonoBehaviour
 
     void Update()
     {
-        //MovementTPS();
         MovementTPS2();
-        
-        //Lamamaos la funcion de salto
         Jump();
     }
 
-    //Movimiento TPS con virtaul camera
     void MovementTPS2()
     {
         float z = Input.GetAxisRaw("Vertical");
@@ -60,18 +56,12 @@ public class ThirdPersonController : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         anim.SetFloat("VelX", x);
         Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        //Actualizamos los inputs del raton
         xAxis.Update(Time.deltaTime);
         yAxis.Update(Time.deltaTime);
 
-        //Hacemos rotar al personaje en el eje Y dependiendo del valor X del raton
         transform.rotation = Quaternion.Euler(0, xAxis.Value, 0);
-        //Hacemos rotar la camara en el eje X dependiendo del valor del raton en el eje Y
         LookAtTransform.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, LookAtTransform.eulerAngles.z);
-        //LookAtTransform.rotation = Quaternion.Euler(yAxis.Value, xAxis.Value, LookAtTransform.eulerAngles.z);
 
-        //Si pulsamos el boton de apuntar activamos y desactivamos las camaras correspondientes
         if(Input.GetButton("Fire2"))
         {
             cameras[0].SetActive(false);
