@@ -43,77 +43,22 @@ public class ThirdPersonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Llamamos la funcion de movimiento
-        //Movement();
-        MovementTPS();
-        //MovementTPS2();
+        //MovementTPS();
+        MovementTPS2();
         
         //Lamamaos la funcion de salto
         Jump();
     }
 
-    void Movement()
-    {
-        //Creamos un Vector3 y en los ejes X y Z le asignamos los inputs de movimiento
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        if(move != Vector3.zero)
-        {
-            //Creamos una variable float para almacenar la posicion a la que queremos que mire el personaje
-            //Usamos la funcion Atan2 para calcular el angulo al que tendra que mirar nuestro personaje
-            //lo multiplicamos por Rad2Deg para que nos de el valor en grados y le sumamos la rotacion de la camara en Y para que segund donde mire la camara afecte a la rotacion
-            float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            //Usamos un SmoothDamp para que nos haga una transicion entre el angulo actual y al que queremos llegar
-            //de esta forma no nos rotara de golpe al personaje
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            //le aplicamos la rotacion al personaje
-            transform.rotation = Quaternion.Euler(0, angle, 0);
-
-            //Creamos otro Vector3 el cual multiplicaremos el angulo al que queremos que mire el personaje por un vector hacia delante
-            //para que el personaje camine en la direccion correcta a la que mira
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            //Funcion del character controller a la que le pasamos el Vector que habiamos creado y lo multiplicamos por la velocidad para movernos
-            controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-        }
-    }
-
-    //Movimiento TPS con Freelook camera
-    void MovementTPS()
+    //Movimiento TPS con virtaul camera
+    void MovementTPS2()
     {
         float z = Input.GetAxisRaw("Vertical");
         anim.SetFloat("VelZ", z);
         float x = Input.GetAxisRaw("Horizontal");
         anim.SetFloat("VelX", x);
-        //Creamos un Vector3 y en los ejes X y Z le asignamos los inputs de movimiento
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        if(move != Vector3.zero)
-        {
-            //Creamos una variable float para almacenar la posicion a la que queremos que mire el personaje
-            //Usamos la funcion Atan2 para calcular el angulo al que tendra que mirar nuestro personaje
-            //lo multiplicamos por Rad2Deg para que nos de el valor en grados y le sumamos la rotacion de la camara en Y para que segund donde mire la camara afecte a la rotacion
-            float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            //Usamos un SmoothDamp para que nos haga una transicion entre el angulo actual y el de la camara
-            //de esta forma no nos rotara de golpe al personaje
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref turnSmoothVelocity, turnSmoothTime);
-            //le aplicamos la rotacion al personaje
-            transform.rotation = Quaternion.Euler(0, angle, 0);
-
-            //Creamos otro Vector3 el cual multiplicaremos el angulo al que queremos que mire el personaje por un vector hacia delante
-            //para que el personaje camine en la direccion correcta a la que mira
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            //Funcion del character controller a la que le pasamos el Vector que habiamos creado y lo multiplicamos por la velocidad para movernos
-            controller.Move(moveDirection.normalized * speed * Time.deltaTime);
-        }
-    }
-
-    //Movimiento TPS con virtaul camera
-    void MovementTPS2()
-    {
-        //Creamos un Vector3 y en los ejes X y Z le asignamos los inputs de movimiento
         Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         //Actualizamos los inputs del raton
@@ -141,18 +86,9 @@ public class ThirdPersonController : MonoBehaviour
 
         if(move != Vector3.zero)
         {
-            //Creamos una variable float para almacenar la posicion a la que queremos que mire el personaje
-            //Usamos la funcion Atan2 para calcular el angulo al que tendra que mirar nuestro personaje
-            //lo multiplicamos por Rad2Deg para que nos de el valor en grados y le sumamos la rotacion de la camara en Y para que segund donde mire la camara afecte a la rotacion
             float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            //Usamos un SmoothDamp para que nos haga una transicion entre el angulo actual y el de la camara
-            //de esta forma no nos rotara de golpe al personaje
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref turnSmoothVelocity, turnSmoothTime);
-            
-            //Creamos otro Vector3 el cual multiplicaremos el angulo al que queremos que mire el personaje por un vector hacia delante
-            //para que el personaje camine en la direccion correcta a la que mira
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            //Funcion del character controller a la que le pasamos el Vector que habiamos creado y lo multiplicamos por la velocidad para movernos
             controller.Move(moveDirection.normalized * speed * Time.deltaTime);
         }
     }
