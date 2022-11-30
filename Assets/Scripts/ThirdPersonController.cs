@@ -37,6 +37,15 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField]private GameObject pickedObject;
     [SerializeField]Transform interactionZone;
     // Start is called before the first frame update
+
+
+    private Rigidbody[] ragdollBodies;
+
+    private SphereCollider[] sphereColliders;
+
+    private CapsuleCollider[] capsuleColliders;
+
+    private bool isRagdoll = false;
     void Start()
     {
         //Asignamos el character controller a su variable
@@ -46,13 +55,37 @@ public class ThirdPersonController : MonoBehaviour
 
         //Con esto podemos esconder el icono del raton para que no moleste
         Cursor.lockState = CursorLockMode.Locked;
+
+        ragdollBodies = GetComponentsInChildren<Rigidbody>();
+        sphereColliders = GetComponentsInChildren<SphereCollider>();
+        capsuleColliders = GetComponentsInChildren<CapsuleCollider>();
+
+        foreach (Rigidbody body in ragdollBodies)
+        {
+            body.isKinematic = true;
+        }
+
+        foreach (SphereCollider sphere in sphereColliders)
+        {
+            sphere.enabled = false;
+        }
+
+        foreach (CapsuleCollider capsule in capsuleColliders)
+        {
+            capsule.enabled = false;
+        }
     }
 
     void Update()
     {
-        MovementTPS2();
-        Jump();
-        PickObjects();
+        if(!isRagdoll)
+        {
+            MovementTPS2();
+            Jump();
+            PickObjects();    
+        }
+        
+        Ragdoll();
     }
 #region FuncionMovimiento
     void MovementTPS2()
@@ -167,5 +200,36 @@ public class ThirdPersonController : MonoBehaviour
             body.velocity = pushDir * pushStrength / body.mass;
         }
     }
-#endregion
+ #endregion
+
+    void Ragdoll()
+    {
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foreach (Rigidbody body in ragdollBodies)
+         {
+            body.isKinematic = false;
+         }
+
+            foreach (SphereCollider sphere in sphereColliders)
+         {
+            sphere.enabled = true;
+         }
+
+            foreach (CapsuleCollider capsule in capsuleColliders)
+         {
+            capsule.enabled = true;
+         }
+
+
+         controller.enabled = false;
+         anim.enabled = false;            
+        }
+
+
+
+
+
+    }
 }
